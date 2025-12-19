@@ -121,7 +121,7 @@ export default function Chat() {
 
   useEffect(() => {
     if (selectedUserId) {
-      axios.get('/messages/'+selectedUserId).then(res => {
+      axios.get('messages/'+ selectedUserId).then(res => {
         setMessages(res.data);
       });
     }
