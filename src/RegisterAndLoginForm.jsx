@@ -7,26 +7,25 @@ export default function RegisterAndLoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginOrRegister, setIsLoginOrRegister] = useState('login');
-  // const {setUsername:setLoggedInUsername, setId} = useContext(UserContext);
-  const {setUsername:setLoggedInUsername} = useContext(UserContext);
+  const {setUsername:setLoggedInUsername, setId} = useContext(UserContext);
 
   async function handleSubmit(ev) {
     ev.preventDefault();
-    if(isLoginOrRegister == 'register') {
-      console.log(username, email, password)
+    let response = null
+    if(isLoginOrRegister == 'register') {      
       try {
-        await axios.post('register/', { username, email, password });
+        response = await axios.post('register/', { username, email, password });
       } catch (err) {
-        console.log(err.response.data);   // 🔥 THIS shows the real issue
+        console.log(err.response.data); 
       }
       
     }
     else {
-      await axios.post('login/', {username, password});
+      response = await axios.post('login/', {username, password});
     }
     
     setLoggedInUsername(username);
-    // setId(data.id);
+    setId(response.data.id);
   }
   return (
     <div className="bg-blue-50 h-screen flex items-center">
