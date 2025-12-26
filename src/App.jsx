@@ -1,12 +1,10 @@
-import axios from "axios";
+import api from "./api/axios";
 import {UserContextProvider} from "./UserContext";
 import Routes from "./Routes";
 
 function App() {
-  axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
-  axios.defaults.withCredentials = true;
-  axios.xsrfCookieName = 'csrftoken';
-  axios.xsrfHeaderName = 'X-CSRFToken';
+  api.xsrfCookieName = 'csrftoken';
+  api.xsrfHeaderName = 'X-CSRFToken';
   return (
     <UserContextProvider>
       <Routes />

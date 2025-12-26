@@ -3,7 +3,7 @@ import Avatar from "./Avatar";
 import Logo from "./Logo";
 import { UserContext } from "./UserContext.jsx";
 import { uniqBy } from "lodash";
-import axios from "axios";
+import api from "./api/axios";
 import Contact from "./Contact";
 
 export default function Chat() {
@@ -96,7 +96,7 @@ export default function Chat() {
   }
 
   function logout() {
-    axios.post("logout/").then(() => {
+    api.post("logout/").then(() => {
       if (ws) ws.close();
       setWs(null);
       setId(null);
@@ -133,7 +133,7 @@ export default function Chat() {
     const formData = new FormData();
     formData.append("file", file);
 
-    axios
+    api
       .post("upload/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -158,7 +158,7 @@ export default function Chat() {
   }, [messages]);
 
   useEffect(() => {
-    axios.get("people/").then((res) => {
+    api.get("people/").then((res) => {
       const offlinePeopleArr = res.data
         .filter((p) => p.id !== id)
         .filter((p) => !Object.keys(onlinePeople).includes(p.id.toString()));
@@ -173,7 +173,7 @@ export default function Chat() {
 
   useEffect(() => {
     if (selectedUserId) {
-      axios.get("messages/" + selectedUserId).then((res) => {
+      api.get("messages/" + selectedUserId).then((res) => {
         setMessages(res.data);
       });
     }
@@ -306,7 +306,7 @@ export default function Chat() {
               placeholder="Type your message here"
               className="bg-white flex-grow border rounded-sm p-2"
             />
-            <label className="bg-blue-200 p-2 text-gray-600 cursor-pointer rounded-sm border border-blue-200">
+            {/* <label className="bg-blue-200 p-2 text-gray-600 cursor-pointer rounded-sm border border-blue-200">
               <input type="file" className="hidden" onChange={sendFile} />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -320,7 +320,7 @@ export default function Chat() {
                   clipRule="evenodd"
                 />
               </svg>
-            </label>
+            </label> */}
             <button
               type="submit"
               className="bg-blue-500 p-2 text-white rounded-sm"
