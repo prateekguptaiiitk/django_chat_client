@@ -94,13 +94,16 @@ export default function Chat() {
       return [...prev, messageData];
     });
   }
+
   function logout() {
     axios.post("logout/").then(() => {
+      if (ws) ws.close();
       setWs(null);
       setId(null);
       setUsername(null);
     });
   }
+
   async function sendMessage(ev, file = null) {
     if (ev) ev.preventDefault();
 
